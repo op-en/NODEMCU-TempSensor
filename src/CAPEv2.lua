@@ -4,35 +4,52 @@ function StartCape(intervall)
 
     print("Starting CAPE") 
     print(wifi.sta.getip())
-
+ 
     dofile('owtemp.lua')
     --Add more stuff
     --dofile('MQTT.lua')
     
-    tmr.alarm(2, 5000, tmr.ALARM_AUTO, function()
+    tmr.alarm(2, 3000, tmr.ALARM_AUTO, function()
 
         
         getTemp()
         
-
+ 
         if connected == false then
             print("not connected")
             return
         end
-
+  
 
         for key,value in pairs(temperature) do 
-            print(key) 
+            --print(key) 
             --print(value.time) 
             --print(value.temperature)
 
             if value.sent == false then
-                topic = cmd_ch .. "/" .. key
-                payload = "{\"time\":" .. value.time .. ",\"temperature\":" .. value.temperature .. "}"
-                m:publish( topic , payload,0,0)
-                value.sent = true
 
-                print("Sending: " .. topic .. " " .. payload)
+                if (value.oldtime ~= nil) then
+                    value.delta = math.abs(value.oldtemp - value.temperature)
+                    value.deltaT = value.time - value.oldtime
+                    --print(value.delta)
+                else
+                    value.delta = 0
+                    value.deltaT = 9999999
+                end
+
+               
+                if (value.delta > 0.15) or (value.deltaT > 60) then   
+            
+                    topic = cmd_ch .. "/" .. key
+                    payload = "{\"time\":" .. value.time .. ",\"temperature\":" .. value.temperature .. "}"
+                    m:publish( topic , payload,0,0)
+                    value.sent = true
+    
+                    value.oldtime = value.time
+                    value.oldtemp = value.temperature
+    
+                    print("Sending: " .. topic .. " " .. payload)
+                end
             end
 
         end

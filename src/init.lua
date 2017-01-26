@@ -28,7 +28,7 @@ wifi.sta.eventMonReg(wifi.STA_GOTIP, function() print("Now connected to " .. SSI
 wifi.sta.eventMonStart()
 
 wifi.sta.config(SSID, PASSWORD,1)
-
+ 
 --wifi.sta.connect()
 --tmr.alarm(1, 1000, 1, function()
 --    if wifi.sta.getip()wifi.sta.getip()wifi.sta.getip()wifi.sta.getip() == nil then
