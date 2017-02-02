@@ -42,7 +42,7 @@ function StartCape(intervall)
             
                     topic = cmd_ch .. "/" .. key
                     payload = "{\"time\":" .. value.time .. ",\"temperature\":" .. value.temperature .. "}"
-                    m:publish( topic , payload,0,0)
+                    m:publish( topic , payload,0,1)
                     value.sent = true
     
                     value.oldtime = value.time
