@@ -44,7 +44,7 @@ function getTemp()
                 ow.reset(onewire_pin)
                 ow.select(onewire_pin, addr)
                 ow.write(onewire_pin, 0x44, 1)
-                tmr.delay(1000000)
+                tmr.delay(750000)
                 present = ow.reset(onewire_pin)
                 ow.select(onewire_pin, addr)
                 ow.write(onewire_pin,0xBE, 1)
@@ -57,8 +57,7 @@ function getTemp()
                 if (crc == data:byte(9)) then
                    t = (data:byte(1) + data:byte(2) * 256)
          if (t > 32768) then
-                    t = (bxor(t, 0xffff)) + 1
-                    t = (-1) * t
+                    t= t - 65535
                    end
          t = t * 625
 

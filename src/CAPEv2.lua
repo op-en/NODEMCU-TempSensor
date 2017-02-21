@@ -9,7 +9,7 @@ function StartCape(intervall)
     --Add more stuff
     --dofile('MQTT.lua')
     
-    tmr.alarm(2, 3000, tmr.ALARM_AUTO, function()
+    tmr.alarm(2, 4000, tmr.ALARM_AUTO, function()
 
         
         getTemp()
